@@ -47,14 +47,21 @@ public class GraphMatrix implements Graph {
     }
 
     public ArrayList<Integer> depthFirstSearch(int n) {
-        return this.depthFirstSearch(n, new ArrayList<Integer>());
+    	ArrayList<Integer> dfs = new ArrayList<Integer>();
+    	for(int i = 0; i < this.numVertices; i++) {
+    		dfs.add(-1); //inicializamos con -1
+    	}
+    	
+    	return this.depthFirstSearch(n, dfs);
     }
 
     public ArrayList<Integer> depthFirstSearch(int n, ArrayList<Integer> visited) {
-        visited.add(n);
+        visited.set(n, 1); //marcamos con 1 si visitamos
         for (int i = 0; i < this.numVertices; i++) {
-            if (this.adjacency[n][i] == 1 && !visited.contains(i)) {
-                depthFirstSearch(i, visited);
+            if (this.adjacency[n][i] == 1 && visited.get(i) == -1) {
+                depthFirstSearch(i, visited); //si es conexso y no esta marcado usamos
+                //recursividad para marcarlo
+                
             }
         }
         return visited;
@@ -78,8 +85,14 @@ public class GraphMatrix implements Graph {
     }
 
     public int countConnectedComponents() {
-
-        return -1;
+    	int cont = 1; //si no hay, los componentes conexsos sera todo el grafo
+    	ArrayList<Integer> connec = depthFirstSearch(0);
+    	//solo seria necesario contar los -1 ya que modificamos el depthFirstSearch
+    	for(int i = 0; i < this.numVertices; i++) {
+    		if(connec.get(i) == -1)
+    			cont++;
+    	}
+    	return cont;
     }
 
     public static void main(String args[]) {
