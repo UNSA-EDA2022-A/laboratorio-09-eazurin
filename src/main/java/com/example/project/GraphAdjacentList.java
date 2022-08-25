@@ -90,7 +90,16 @@ public class GraphAdjacentList implements Graph {
     }
 
     public boolean removeVertex(int vertex){
-        return false;
+    	if(this.vertices.get(vertex) == null) {
+    		return false;
+    	}
+    	for(int i = 0; i < this.numVertices; i++) {
+    		removeEdge(vertex, i);
+    	}
+    	vertices.remove(vertex);
+    	this.numVertices--;
+    	return true;
+        
     }
 
     public static void main(String args[]) {
